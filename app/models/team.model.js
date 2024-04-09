@@ -2,9 +2,13 @@ const sql = require("./db.js");
 
 // constructor
 const Team = function(team) {
-  this.title = team.title;
-  this.description = team.description;
-  this.published = team.published;
+  this.id = team.id,
+  this.name = team.name,
+  this.coach_id = team.coach_id,
+  this.league_id = team.league_id,
+  this.notes = team.notes,
+  this.motto = team.motto,
+  this.logo_path = team.logo_path
 };
 
 Team.create = (newTeam, result) => {

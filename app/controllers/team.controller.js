@@ -9,12 +9,19 @@ exports.create = (req, res) => {
     });
   }
 
+  
   // Create a Team
   const team = new Team({
-    title: req.body.title,
-    description: req.body.description,
-    published: req.body.published || false
+    id: req.body.id,
+    name: req.body.name,
+    coach_id: req.body.coach_id,
+    league_id: req.body.league_id,
+    notes: req.body.notes,
+    motto: req.body.motto,
+    logo_path: req.body.logo_path
+
   });
+
 
   // Save Team in the database
   Team.create(team, (err, data) => {

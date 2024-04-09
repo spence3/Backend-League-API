@@ -4,7 +4,8 @@ module.exports = app => {
     var router = require("express").Router();
   
     // Create a new Team
-    router.post("/", teams.create);
+    // router.post("/", teams.create);
+    router.post("/", teams.validate);
   
     // Retrieve all teams
     router.get("/", teams.findAll);
