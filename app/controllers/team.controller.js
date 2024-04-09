@@ -114,7 +114,7 @@ exports.delete = (req, res) => {
               message: "Could not delete Team with id " + req.params.id
             });
           }
-        } else res.send({ message: `Team ${id} was deleted successfully!` });
+        } else res.send({ message: `Team ${req.params.id} was deleted successfully!` });
       });
 };
 
