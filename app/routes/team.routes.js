@@ -24,5 +24,5 @@ module.exports = app => {
     // Delete all teams
     router.delete("/", teams.deleteAll);
   
-    app.use('/api/teams', router);
+    app.use('/teams', router);
   };
