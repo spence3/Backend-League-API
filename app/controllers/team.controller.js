@@ -2,32 +2,29 @@ const Team = require("../models/team.model.js");
 const { body,validationResult } = require('express-validator');
 
 exports.validate = (method) =>{
-  return(req, res, next) => {
-    switch(method){
-      case 'createTeam':
-        console.log('we made it')
-        if(body('name').notEmpty()){
-          console.log('empty?')
-        }
-        body('coach_id').exists({checkFalsy: true})
-        body('league_id').exists({checkFalsy: true})
-        break;
-      
-      case 'createPerson':
-        break;
-    } 
-    const errors = validationResult(req)
-    if(!errors.isEmpty()){
-      return res.status(400).json({errors: errors.array()})
-    }
+  let rules=[
+    body('name','name cannot be empty').not().isEmpty().trim().escape(),
+    body('coach_id', 'coach_id cannot be empty').not().isEmpty().trim().escape(),
+    body('league_id', 'league_id cannot be empty').not().isEmpty().trim().escape(),
+    body('notes').trim().escape(),   //just sanitize notes
+    body('motto').trim().escape()   // just sanitize motto
+  ]
+  switch(method){
+    case 'createTeam':
+      return rules
 
-    next()
-  }
+    case 'createPerson':
+      break;
+  } 
 }
 
 // Create and Save a new Team
 exports.create = (req, res) => {
   // Validate request
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()})
+  }
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
