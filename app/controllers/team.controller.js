@@ -6,15 +6,16 @@ exports.validate = (method) =>{
     switch(method){
       case 'createTeam':
         console.log('we made it')
-        body('name').notEmpty().withMessage('Name is required');
-        console.log(body('name').notEmpty())
+        if(body('name').notEmpty()){
+          console.log('empty?')
+        }
         body('coach_id').exists({checkFalsy: true})
         body('league_id').exists({checkFalsy: true})
         break;
       
       case 'createPerson':
         break;
-    }
+    } 
     const errors = validationResult(req)
     if(!errors.isEmpty()){
       return res.status(400).json({errors: errors.array()})

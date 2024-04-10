@@ -11,7 +11,7 @@ module.exports = app => {
       try{
         await teams.create(req, res);
       }
-      catch(err){
+      catch(err){ 
         res.send(err)
         console.log(err.message)
       }
