@@ -1,4 +1,28 @@
 const Team = require("../models/team.model.js");
+const { body,validationResult } = require('express-validator');
+
+exports.validate = (method) =>{
+  return(req, res, next) => {
+    switch(method){
+      case 'createTeam':
+        console.log('we made it')
+        body('name').notEmpty().withMessage('Name is required');
+        console.log(body('name').notEmpty())
+        body('coach_id').exists({checkFalsy: true})
+        body('league_id').exists({checkFalsy: true})
+        break;
+      
+      case 'createPerson':
+        break;
+    }
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+      return res.status(400).json({errors: errors.array()})
+    }
+
+    next()
+  }
+}
 
 // Create and Save a new Team
 exports.create = (req, res) => {
