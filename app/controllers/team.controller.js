@@ -13,7 +13,7 @@ exports.validate = (method) =>{
     case 'createTeam':
       return rules
 
-    case 'createPerson':
+    case 'upDateTeam':
       break;
   } 
 }
