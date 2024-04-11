@@ -176,4 +176,5 @@ exports.deleteAll = (req, res) => {
               err.message || "Some error occurred while removing all people."
           });
         else res.send({ message: `All People were deleted successfully!` });
-      
+      });
+};
