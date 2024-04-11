@@ -1,7 +1,7 @@
 const People = require("../models/people.model.js");
 const { body,validationResult } = require('express-validator');
 
-exports.validate = (method) =>{
+exports.validate = (method) =>{ 
   let rules=[
     body('first_name','first_name cannot be empty').not().isEmpty().trim().escape(),
     body('last_name', 'last_name cannot be empty').not().isEmpty().trim().escape(),
@@ -12,14 +12,17 @@ exports.validate = (method) =>{
     body('email', 'email cannot be empty').not().isEmpty().isEmail(),
     body('phone', 'phone cannot be empty').not().isEmpty().trim().escape(),
     body('team_id', 'team_id cannot be empty').not().isEmpty().trim().escape(),
-    body('username', 'username cannot be empty').isLength({min: 6}).not().isEmpty().trim().escape(),
+    body('user_name', 'username cannot be empty').isLength({min: 6}).not().isEmpty().trim().escape(),
+    body('license_level_id', 'license_level_id cannot be empty').not().isEmpty().trim().escape(),
+    body('password', 'password cannot be empty and must be a strong password').not().isEmpty().trim().escape(),
+    body('person_type', 'person_type cannot be empty').not().isEmpty().trim().escape(),
     body('notes').trim().escape(),   //just sanitize notes
     body('logo_path').trim().escape(),   //just sanitize logo_path
   ]
   switch(method){
     case 'createPerson':
       return rules
-
+      
     case 'updatePerson':
       break;
   } 
@@ -173,5 +176,4 @@ exports.deleteAll = (req, res) => {
               err.message || "Some error occurred while removing all people."
           });
         else res.send({ message: `All People were deleted successfully!` });
-      });
-};
+      

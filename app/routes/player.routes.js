@@ -2,10 +2,10 @@ const { body, validationResult } = require('express-validator');
 
 
 module.exports = app => {
-    const players = require("../controllers/team.controller.js");
+    const players = require("../controllers/people.controller.js");
     var router = require("express").Router();
   
-    // Create a new Team
+    // Create a new Person
     // router.post("/", players.create);
     router.post("/", players.validate('createPerson'), async(req, res) =>{
       try{
@@ -23,13 +23,13 @@ module.exports = app => {
     // Retrieve all published players
     router.get("/published", players.findAllPublished);
   
-    // Retrieve a single Team with id
+    // Retrieve a single Person with id
     router.get("/:id", players.findOne);
   
-    // Update a Team with id
+    // Update a Person with id
     router.put("/:id", players.update);
   
-    // Delete a Team with id
+    // Delete a Person with id
     router.delete("/:id", players.delete);
   
     // Delete all players

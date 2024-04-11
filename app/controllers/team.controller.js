@@ -11,6 +11,9 @@ exports.validate = (method) =>{
   ]
   switch(method){
     case 'createTeam':
+      body('name').custom(async (value) => { 
+        return await Team.checkDuplicateName(value);//custom validation to check if team exists
+    })
       return rules
 
     case 'upDateTeam':
