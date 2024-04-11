@@ -11,6 +11,10 @@ const Team = function(team) {
   this.logo_path = team.logo_path
 };
 
+Team.checkDuplicateName = (name) => {
+  console.log("in check")
+  console.log(name)
+}
 Team.create = (newTeam, result) => {
   sql.query("INSERT INTO teams SET ?", newTeam, (err, res) => {
     if (err) {

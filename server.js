@@ -15,11 +15,6 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to teams." });
-});
-
 require("./app/routes/team.routes.js")(app);
 require("./app/routes/player.routes.js")(app);
 
