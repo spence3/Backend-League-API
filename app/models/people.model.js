@@ -1,6 +1,6 @@
 const sql = require("./db.js");
 
-// constructor
+// constructor 
 const Person = function(person) {
   this.first_name = person.first_name,
   this.last_name = person.last_name,
@@ -19,6 +19,25 @@ const Person = function(person) {
   this.person_type = person.person_type
   this.logo_path = person.logo_path
 };
+
+Person.checkDuplicateEmail = (email, result)=>{
+  sql.query(`SELECT * from people where email = ?`, [email], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    //found douplicate person
+    if (res.length) {
+      result(true);
+      return;
+    }
+
+    // no duplicate person
+    result(false);
+    return;
+  });
+}
 
 Person.create = (newPerson, result) => {
   sql.query("INSERT INTO people SET ?", newPerson, (err, res) => {

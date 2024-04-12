@@ -9,12 +9,26 @@ const Team = function(team) {
   this.notes = team.notes,
   this.motto = team.motto,
   this.logo_path = team.logo_path
-};
+}; 
 
-Team.checkDuplicateName = (name) => {
-  console.log("in check")
-  console.log(name)
+Team.checkDuplicateName = (name, result)=>{
+  sql.query(`SELECT * from teams where name = ?`, [name], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    //found duplicate team
+    if (res.length) {
+      
+      result(true);
+      return;
+    }
+    //didn't find duplicate team
+    result(false);
+  });
 }
+
 Team.create = (newTeam, result) => {
   sql.query("INSERT INTO teams SET ?", newTeam, (err, res) => {
     if (err) {

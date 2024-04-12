@@ -21,6 +21,11 @@ exports.validate = (method) =>{
   ]
   switch(method){
     case 'createPerson':
+      rules.push(body('email','Must not create duplicate player or coach').custom((email) => { 
+        People.checkDuplicateEmail(email, (isDup)=>{
+          return isDup;
+        });//custom validation to check if team exists
+      }))
       return rules
       
     case 'updatePerson':
