@@ -105,8 +105,8 @@ Person.getAllPublished = result => {
 
 Person.updateById = (id, person, result) => {
   sql.query(
-    "UPDATE people SET title = ?, description = ?, published = ? WHERE id = ?",
-    [person.title, person.description, person.published, id],
+    "UPDATE people SET first_name = ?, last_name = ?, address1 = ?, notes = ?, city = ?, state = ?, zip = ?, team_id = ?, email = ?, phone = ?, password = ?, user_name = ?, license_level_id = ?, person_type = ?, logo_path = ? WHERE id = ?",
+    [person.first_name, person.last_name, person.address1, person.notes, person.city, person.state, person.zip, person.team_id, person.email, person.phone, person.password, person.user_name, person.license_level_id, person.person_type, person.logo_path, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

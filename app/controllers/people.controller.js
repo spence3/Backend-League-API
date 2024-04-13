@@ -21,11 +21,11 @@ exports.validate = (method) =>{
   ]
   switch(method){
     case 'createPerson':
-      rules.push(body('email','Must not create duplicate player or coach').custom((email) => { 
-        People.checkDuplicateEmail(email, (isDup)=>{
-          return isDup;
-        });//custom validation to check if team exists
-      }))
+      // rules.push(body('email','Must not create duplicate player or coach').custom((email) => { 
+      //   People.checkDuplicateEmail(email, (isDup)=>{
+      //     return isDup;
+      //   });//custom validation to check if team exists
+      // }))
       return rules
       
     case 'updatePerson':
@@ -77,7 +77,7 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the People."
       });
-    else res.send(data);
+    else res.status(201).send(data);
   });
 };
 
@@ -142,7 +142,7 @@ exports.update = (req, res) => {
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
-          res.status(404).send({
+          res.status(422).send({
             message: `Not found People with id ${req.params.id}.`
           });
         } else {
@@ -154,6 +154,7 @@ exports.update = (req, res) => {
     }
   );
 };
+
 
 // Delete a People with the specified id in the request
 exports.delete = (req, res) => {

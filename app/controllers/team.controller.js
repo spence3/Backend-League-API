@@ -4,11 +4,6 @@ const { body,validationResult } = require('express-validator');
 exports.validate = (method) =>{
   let rules=[ 
     body('name','name cannot be empty').not().isEmpty().trim().escape(),
-    body('name','Must not create duplicate teams').custom((name) => { 
-      Team.checkDuplicateName(name, (isDup)=>{
-        return isDup;
-      });//custom validation to check if team exists
-    }),
     body('coach_id', 'coach_id cannot be empty').not().isEmpty().trim().escape(),
     body('league_id', 'league_id cannot be empty').not().isEmpty().trim().escape(),
     body('notes').trim().escape(),   //just sanitize notes
@@ -16,6 +11,11 @@ exports.validate = (method) =>{
   ]
   switch(method){
     case 'createTeam':
+      // body('name','Must not create duplicate teams').custom((name) => { 
+      //   Team.checkDuplicateName(name, (isDup)=>{
+      //     return isDup;
+      //   });//custom validation to check if team exists
+      // })
       return rules
 
     case 'upDateTeam':
@@ -60,6 +60,7 @@ exports.create = (req, res) => {
     else res.send(data);
   });
 };
+
 
 
 // Retrieve all Teams from the database (with condition).
