@@ -29,7 +29,8 @@ exports.validate = (method) =>{
       return rules
       
     case 'updatePerson':
-      break;
+      console.log("inside of update person")
+      return rules;
   } 
 }
 
@@ -40,6 +41,7 @@ exports.create = (req, res) => {
   if(!errors.isEmpty()){
     return res.status(400).json({errors: errors.array()})
   }
+
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -80,6 +82,43 @@ exports.create = (req, res) => {
     else res.status(201).send(data);
   });
 };
+
+// Update a People identified by the id in the request
+exports.update = (req, res) => {
+  // Validate request
+  const errors = validationResult(req)
+  if(!errors.isEmpty()){
+    return res.status(400).json({errors: errors.array()})
+  }
+
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+
+  console.log(req.body);
+
+  People.updateById(
+    req.params.id,
+    new People(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(422).send({
+            message: `Not found People with id ${req.params.id}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating People with id " + req.params.id
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
 
 
 // Retrieve all People from the database (with condition).
@@ -124,37 +163,6 @@ exports.findAllPublished = (req, res) => {
         else res.send(data);
       });
 };
-
-// Update a People identified by the id in the request
-exports.update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-  }
-
-  console.log(req.body);
-
-  People.updateById(
-    req.params.id,
-    new People(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(422).send({
-            message: `Not found People with id ${req.params.id}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating People with id " + req.params.id
-          });
-        }
-      } else res.send(data);
-    }
-  );
-};
-
 
 // Delete a People with the specified id in the request
 exports.delete = (req, res) => {

@@ -27,7 +27,16 @@ module.exports = app => {
     router.get("/:id", players.findOne);
   
     // Update a Person with id
-    router.put("/:id", players.update);
+    // router.put("/:id", players.update);
+    router.put("/:id", players.validate('updatePerson'), async(req, res) =>{
+      try{
+        await players.update(req, res);
+      }
+      catch(err){ 
+        res.send(err)
+        console.log(err.message)
+      }
+    });
   
     // Delete a Person with id
     router.delete("/:id", players.delete);
