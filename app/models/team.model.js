@@ -32,8 +32,6 @@ Team.checkDuplicateName = (name, result)=>{
 Team.create = (newTeam, result) => {
   console.log(newTeam.coach_id)
   
-  // sql.query("Select name, coach_name, phone, email, motto from(SELECT t.name, t.motto, p.phone, p.email concat(p.first_name+''+p.last_name)as coac_name FROM teams t JOIN people p on p.id=coach_id) as teams")
-
   sql.query("INSERT INTO teams SET ?", newTeam, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -66,7 +64,10 @@ Team.findById = (id, result) => {
 };
 
 Team.getAll = (title, sortCol, sortDir, filterCol, filterStr, result) => {
-  let query = "SELECT * FROM teams";
+  // let query = "SELECT * FROM teams";
+  let query = "SELECT teams.*, CONCAT(p.first_name, ' ', p.last_name) AS coachName, p.email AS coachEmail, p.phone AS coachPhone " +
+            "FROM teams " +
+            "JOIN people p ON p.id = teams.coach_id";
 
   if (title) {
     query += ` WHERE title LIKE '%${title}%'`;
@@ -94,8 +95,8 @@ Team.getAll = (title, sortCol, sortDir, filterCol, filterStr, result) => {
 
 Team.updateById = (id, team, result) => {
   sql.query(
-    "UPDATE teams SET title = ?, description = ?, published = ? WHERE id = ?",
-    [team.title, team.description, team.published, id],
+    "UPDATE teams SET name = ?, coach_id = ?  WHERE id = ?",
+    [team.name, team.coach_id, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
