@@ -30,7 +30,10 @@ Team.checkDuplicateName = (name, result)=>{
 }
 
 Team.create = (newTeam, result) => {
-  console.log("in create")
+  console.log(newTeam.coach_id)
+  
+  // sql.query("Select name, coach_name, phone, email, motto from(SELECT t.name, t.motto, p.phone, p.email concat(p.first_name+''+p.last_name)as coac_name FROM teams t JOIN people p on p.id=coach_id) as teams")
+
   sql.query("INSERT INTO teams SET ?", newTeam, (err, res) => {
     if (err) {
       console.log("error: ", err);

@@ -110,18 +110,6 @@ Person.getAll = (title, sortCol, sortDir, filterCol, filterStr, limit, offset, r
   // });
 };
 
-Person.getAllPublished = result => {
-  sql.query("SELECT * FROM people WHERE published=true", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log("people: ", res);
-    result(null, res);
-  });
-};
 
 Person.updateById = (id, person, result) => {
   sql.query(
