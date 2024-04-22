@@ -1,5 +1,5 @@
-const Team = require("../models/team.model.js");
-const { body,validationResult } = require('express-validator');
+const Team = require("../models/team.model.js")
+const { body,validationResult } = require('express-validator')
 
 exports.validate = (method) =>{
   let rules=[ 
@@ -13,13 +13,13 @@ exports.validate = (method) =>{
     case 'createTeam':
       // rules.push(body('name','Must not create duplicate teams').custom((name) => { 
       //   Team.checkDuplicateName(name, (isDup)=>{
-      //     return isDup;
-      //   });//custom validation to check if team exists
+      //     return isDup
+      //   })//custom validation to check if team exists
       // }))
       return rules
 
     case 'updateTeam':
-      return rules;
+      return rules
   } 
 }
 
@@ -33,7 +33,7 @@ exports.create = (req, res) => {
   if (!req.body) {
     res.status(402).send({
       message: "Content can not be empty!"
-    });
+    })
   }
 
   
@@ -47,7 +47,7 @@ exports.create = (req, res) => {
     motto: req.body.motto,
     logo_path: req.body.logo_path
 
-  });
+  })
 
 
   // Save Team in the database
@@ -56,29 +56,31 @@ exports.create = (req, res) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while creating the Team."
-      });
-    else res.status(201).send(data); 
-  });
-};
+      })
+    else res.status(201).send(data) 
+  })
+}
 
 
 
 // Retrieve all Teams from the database (with condition).
 exports.findAll = (req, res) => {
-  const title = req.query.title;
-  const sortCol = req.query.sortCol;
-  const sortDir = req.query.sortDir;
-  const filterCol = req.query.filterCol;
-  const filterStr = req.query.filterStr;
-    Team.getAll(title, sortCol, sortDir, filterCol, filterStr, (err, data) => {
+  const title = req.query.title
+  const sortCol = req.query.sortCol
+  const sortDir = req.query.sortDir
+  const filterCol = req.query.filterCol
+  const filterStr = req.query.filterStr
+  const limit = req.query.limit
+  const offset = req.query.offset
+    Team.getAll(title, sortCol, sortDir, filterCol, filterStr, limit, offset, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while retrieving teams."
-        });
-      else res.send(data);
-    });
-};
+        })
+      else res.send(data)
+    })
+}
 
 // Find a single Team with a id
 exports.findOne = (req, res) => {
@@ -87,15 +89,15 @@ exports.findOne = (req, res) => {
           if (err.kind === "not_found") {
             res.status(404).send({
               message: `Not found Team with id ${req.params.id}.`
-            });
+            })
           } else {
             res.status(500).send({
               message: "Error retrieving Team with id " + req.params.id
-            });
+            })
           }
-        } else res.send(data);
-      });
-};
+        } else res.send(data)
+      })
+}
 
 // find all published Teams
 exports.findAllPublished = (req, res) => {
@@ -104,10 +106,10 @@ exports.findAllPublished = (req, res) => {
           res.status(500).send({
             message:
               err.message || "Some error occurred while retrieving teams."
-          });
-        else res.send(data);
-      });
-};
+          })
+        else res.send(data)
+      })
+}
 
 // Update a Team identified by the id in the request
 exports.update = (req, res) => {
@@ -121,10 +123,10 @@ exports.update = (req, res) => {
   if (!req.body) {
     res.status(402).send({
       message: "Content can not be empty!"
-    });
+    })
   }
 
-  console.log(req.body);
+  console.log(req.body)
 
   Team.updateById(
     req.params.id,
@@ -134,16 +136,16 @@ exports.update = (req, res) => {
         if (err.kind === "not_found") {
           res.status(404).send({
             message: `Not found Team with id ${req.params.id}.`
-          });
+          })
         } else {
           res.status(500).send({
             message: "Error updating Team with id " + req.params.id
-          });
+          })
         }
-      } else res.send(data);
+      } else res.send(data)
     }
-  );
-};
+  )
+}
 
 // Delete a Team with the specified id in the request
 exports.delete = (req, res) => {
@@ -152,15 +154,15 @@ exports.delete = (req, res) => {
           if (err.kind === "not_found") {
             res.status(404).send({
               message: `Not found Team with id ${req.params.id}.`
-            });
+            })
           } else {
             res.status(500).send({
               message: "Could not delete Team with id " + req.params.id
-            });
+            })
           }
-        } else res.send({ message: `Team ${req.params.id} was deleted successfully!` });
-      });
-};
+        } else res.send({ message: `Team ${req.params.id} was deleted successfully!` })
+      })
+}
 
 // Delete all Teams from the database.
 exports.deleteAll = (req, res) => {
@@ -169,7 +171,7 @@ exports.deleteAll = (req, res) => {
           res.status(500).send({
             message:
               err.message || "Some error occurred while removing all teams."
-          });
-        else res.send({ message: `All Teams were deleted successfully!` });
-      });
-};
+          })
+        else res.send({ message: `All Teams were deleted successfully!` })
+      })
+}

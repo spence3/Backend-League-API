@@ -63,21 +63,25 @@ Team.findById = (id, result) => {
   });
 };
 
-Team.getAll = (title, sortCol, sortDir, filterCol, filterStr, result) => {
+Team.getAll = (title, sortCol, sortDir, filterCol, filterStr, limit, offset, result) => {
   // let query = "SELECT * FROM teams";
   let query = "SELECT teams.*, CONCAT(p.first_name, ' ', p.last_name) AS coachName, p.email AS coachEmail, p.phone AS coachPhone " +
             "FROM teams " +
-            "JOIN people p ON p.id = teams.coach_id";
+            "JOIN people p ON p.id = teams.coach_id ";
 
-  if (title) {
-    query += ` WHERE title LIKE '%${title}%'`;
+  if(title) {
+    query += ` WHERE title LIKE '%${title}%' `;
   }
   if(filterCol, filterStr){
-    query += ` WHERE ${filterCol} LIKE '%${filterStr}%'`;
+    query += ` WHERE ${filterCol} LIKE '%${filterStr}%' `;
   }
 
   if(sortCol, sortDir){
-    query += ` ORDER BY ${sortCol} ${sortDir}`;
+    query += ` ORDER BY ${sortCol} ${sortDir} `;
+  }
+
+  if(limit, offset){
+    query += `LIMIT ${limit} OFFSET ${offset} `
   }
 
   sql.query(query, (err, res) => {

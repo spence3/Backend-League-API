@@ -28,9 +28,6 @@ const sql = require("../models/db.js");
           console.log("coaches: ", result);
           res.json(result);
         });
-
-        // let result=await sql.query(query)
-        // res.send(result);
       }
       catch(err){
         res.send(err);
