@@ -71,8 +71,20 @@ Person.findById = (id, result) => {
   });
 };
 
-Person.getAll = (title, sortCol, sortDir, filterCol, filterStr, limit, offset, result) => {
-  let query = "SELECT * FROM people";
+Person.getAll = (title, sortCol, sortDir, filterCol, filterStr, limit, offset, person_type, result) => {
+  // let query = `SELECT * FROM people WHERE person_type = '${person_type}'`;
+  // console.log(team_id)
+  let query = `
+  SELECT 
+    people.*, 
+    teams.name AS team_name
+  FROM 
+    people
+  JOIN 
+    teams ON people.team_id = teams.id
+  WHERE 
+    people.person_type = '${person_type}'`;
+
 
   if (title) {
     query += ` WHERE title LIKE '%${title}%'`;

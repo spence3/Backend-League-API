@@ -121,7 +121,7 @@ exports.update = (req, res) => {
 
 
 // Retrieve all People from the database (with condition).
-exports.findAll = (req, res) => {
+exports.findAll = (req, res, person_type) => {
   const title = req.query.title;
   const sortCol = req.query.sortCol;
   const sortDir = req.query.sortDir;
@@ -129,7 +129,7 @@ exports.findAll = (req, res) => {
   const filterStr = req.query.filterStr;
   const limit = req.query.limit ? parseInt(req.query.limit) : 20;
   const offset = req.query.offset ? parseInt(req.query.offset) : 0;
-    People.getAll(title, sortCol, sortDir, filterCol, filterStr, limit, offset, (err, data) => {
+    People.getAll(title, sortCol, sortDir, filterCol, filterStr, limit, offset, person_type, (err, data) => {
       if (err)
         res.status(500).send({
           message:

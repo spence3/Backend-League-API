@@ -9,7 +9,7 @@ module.exports = app => {
     // router.post("/", players.create);
     router.post("/", players.validate('createPerson'), async(req, res) =>{
       try{
-        await players.create(req, res);
+        await players.create(req, res, 'player');
       }
       catch(err){ 
         res.send(err)
@@ -28,8 +28,16 @@ module.exports = app => {
       }
     });
 
-    // Retrieve all players
-    router.get("/", players.findAll);
+    // // Retrieve all players
+    // router.get("/", players.findAll);
+    router.get("/", async(req, res) => {
+      try{
+        await players.findAll(req, res, 'player')
+      }
+      catch(err){
+        res.send(err)
+      }
+    })
   
     // Retrieve a single Person with id
     router.get("/:id", players.findOne);
