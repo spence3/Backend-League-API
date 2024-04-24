@@ -65,7 +65,6 @@ exports.create = (req, res) => {
     user_name: req.body.user_name,
     license_level_id: req.body.license_level_id,
     person_type: req.body.person_type,
-
     logo_path: req.body.logo_path
 
   });

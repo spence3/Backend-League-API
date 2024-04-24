@@ -9,8 +9,11 @@ const sql = require("../models/db.js");
       try{
         let query="";
         switch(req.params.lookupTable){
+          case 'players':
+            console.log("in players")
+            query = "SELECT CONCAT(first_name, ' ', last_name) as label, id as value FROM people WHERE person_type='player'";
+            break;
           case 'coaches':
-            console.log("in coaches")
             query = "SELECT CONCAT(first_name, ' ', last_name) as label, id as value FROM people WHERE person_type='coach'";
             break;
           case 'teams':
